@@ -59,9 +59,7 @@ class LibnameConan(ConanFile):
         self.copy(pattern="*.dylib", dst="lib", keep_path=False)
 
     def package_info(self):
-<<<<<<< Updated upstream
         self.cpp_info.libs = tools.collect_libs(self)
-=======
         self.cpp_info.names["cmake_find_package"] = "PostgreSQL"
         self.cpp_info.names["cmake_find_package_multi"] = "PostgreSQL"
         self.env_info.PostgreSQL_ROOT = self.package_folder
@@ -93,4 +91,3 @@ class LibnameConan(ConanFile):
             self.cpp_info.components.system_libs = ["pthread"]
         elif self.settings.os == "Windows":
             self.cpp_info.components.system_libs = ["ws2_32", "secur32", "advapi32", "shell32", "crypt32", "wldap32"]
->>>>>>> Stashed changes
