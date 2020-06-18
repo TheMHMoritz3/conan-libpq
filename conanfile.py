@@ -59,4 +59,38 @@ class LibnameConan(ConanFile):
         self.copy(pattern="*.dylib", dst="lib", keep_path=False)
 
     def package_info(self):
+<<<<<<< Updated upstream
         self.cpp_info.libs = tools.collect_libs(self)
+=======
+        self.cpp_info.names["cmake_find_package"] = "PostgreSQL"
+        self.cpp_info.names["cmake_find_package_multi"] = "PostgreSQL"
+        self.env_info.PostgreSQL_ROOT = self.package_folder
+
+        self.cpp_info.components.libs = [self._construct_library_name("pq")]
+
+#        if self.options.with_zlib:
+#            self.cpp_info.components.requires.append("zlib::zlib")
+
+#        if self.options.with_openssl:
+#            self.cpp_info.components.requires.append("openssl::openssl")
+
+        if not self.options.shared:
+            if self.settings.compiler == "Visual Studio":
+                if tools.Version(self.version) < '12':
+                    self.cpp_info.components.libs = ["libpgport"]
+                else:
+                    self.cpp_info.components.libs = ["libpgcommon"]
+                    self.cpp_info.components.libs = ["libpgport"]
+            else:
+                if tools.Version(self.version) < '12':
+                    self.cpp_info.components.libs = ["pgcommon"]
+                    self.cpp_info.components.requires.extend(["pgcommon"])
+                else:
+                    self.cpp_info.components.libs = ["pgcommon", "pgcommon_shlib"]
+                    self.cpp_info.components.libs = ["pgport", "pgport_shlib"]
+
+        if self.settings.os == "Linux":
+            self.cpp_info.components.system_libs = ["pthread"]
+        elif self.settings.os == "Windows":
+            self.cpp_info.components.system_libs = ["ws2_32", "secur32", "advapi32", "shell32", "crypt32", "wldap32"]
+>>>>>>> Stashed changes
